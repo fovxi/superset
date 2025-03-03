@@ -376,11 +376,11 @@ BABEL_DEFAULT_LOCALE = "zh"
 BABEL_DEFAULT_FOLDER = "superset/translations"
 # The allowed translation for your app
 LANGUAGES = {
+    "zh": {"flag": "cn", "name": "Chinese"},
     "en": {"flag": "us", "name": "English"},
     # "es": {"flag": "es", "name": "Spanish"},
     # "it": {"flag": "it", "name": "Italian"},
     # "fr": {"flag": "fr", "name": "French"},
-    "zh": {"flag": "cn", "name": "Chinese"},
     # "zh_TW": {"flag": "tw", "name": "Traditional Chinese"},
     # "ja": {"flag": "jp", "name": "Japanese"},
     # "de": {"flag": "de", "name": "German"},
