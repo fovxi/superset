@@ -9721,6 +9721,9 @@
       "There is a syntax error in the SQL query. Perhaps there was a misspelling or a typo.": [
         "SQL查询中存在语法错误。可能是拼写错误或是打错关键字。"
       ],
+      "There is currently no information to display.": [
+        "目前没有可显示的信息"
+      ],
       "There is no chart definition associated with this component, could it have been deleted?": [
         "没有与此组件关联的图表定义，是否已将其删除？"
       ],

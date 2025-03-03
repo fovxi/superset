@@ -13508,6 +13508,9 @@ msgstr "年"
 msgid "zoom area"
 msgstr "缩放面积"
 
+msgid "There is currently no information to display."
+msgstr "目前没有可显示的信息"
+
 msgid ""
 "Truncate X Axis. Can be overridden by specifying a min or max bound. Only "
 "applicable for numerical X axis."

@@ -142,8 +142,12 @@ export function Menu({
   const [showMenu, setMenu] = useState<MenuMode>('horizontal');
   const screens = useBreakpoint();
   const uiConfig = useUiConfig();
+  const [isInIframe, setIsInIframe] = useState(false);
 
   useEffect(() => {
+    // 安全地检测是否在iframe中
+    setIsInIframe(!!(window && window.self !== window.top));
+
     function handleResize() {
       if (window.innerWidth <= 767) {
         setMenu('inline');
@@ -241,7 +245,12 @@ export function Menu({
     );
   };
   return (
-    <StyledHeader className="top" id="main-menu" role="navigation">
+    <StyledHeader
+      className="top"
+      id="main-menu"
+      role="navigation"
+      style={{ display: isInIframe ? 'none' : 'block' }}
+    >
       <Row>
         <Col md={16} xs={24}>
           <Tooltip
