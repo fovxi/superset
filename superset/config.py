@@ -372,12 +372,12 @@ PUBLIC_ROLE_LIKE: str | None = "Admin"
 ENABLE_IFRAME_EMBED = True
 
 # 允许所有域名嵌入（谨慎使用，有安全风险）
-HTTP_HEADERS = {
-    # 删除 X-Frame-Options 头或设置为 ALLOW
-    'X-Frame-Options': 'ALLOW',
-    # 允许所有域名作为父级
-    'Content-Security-Policy': "frame-ancestors *"
-}
+# HTTP_HEADERS = {
+#     # 删除 X-Frame-Options 头或设置为 ALLOW
+#     'X-Frame-Options': 'ALLOW',
+#     # 允许所有域名作为父级
+#     'Content-Security-Policy': "frame-ancestors *"
+# }
 
 # ---------------------------------------------------
 # Babel config for translations
@@ -1065,7 +1065,12 @@ CELERY_CONFIG: type[CeleryConfig] = CeleryConfig
 # override anything set within the app
 DEFAULT_HTTP_HEADERS: dict[str, Any] = {}
 OVERRIDE_HTTP_HEADERS: dict[str, Any] = {}
-HTTP_HEADERS: dict[str, Any] = {}
+HTTP_HEADERS: dict[str, Any] = {
+     # 删除 X-Frame-Options 头或设置为 ALLOW
+    'X-Frame-Options': 'ALLOW',
+    # 允许所有域名作为父级
+    'Content-Security-Policy': "frame-ancestors *"
+}
 
 # The db id here results in selecting this one as a default in SQL Lab
 DEFAULT_DB_ID = None
