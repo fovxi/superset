@@ -1067,7 +1067,7 @@ DEFAULT_HTTP_HEADERS: dict[str, Any] = {}
 OVERRIDE_HTTP_HEADERS: dict[str, Any] = {}
 HTTP_HEADERS: dict[str, Any] = {
      # 删除 X-Frame-Options 头或设置为 ALLOWALL
-    "X-Frame-Options": "ALLOWALL",
+    # "X-Frame-Options": "ALLOWALL",
     # 允许所有域名作为父级
     "Content-Security-Policy": "frame-ancestors *"
 }
