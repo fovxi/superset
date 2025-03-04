@@ -138,7 +138,8 @@ export const PageHeaderWithActions = ({
   tooltipProps,
 }: PageHeaderWithActionsProps) => {
   const theme = useTheme();
-  const isInIframe = useInIframe();
+  // 使用hook检测是否为嵌入模式
+  const isEmbedded = useInIframe();
 
   return (
     <div css={headerStyles} className="header-with-actions">
@@ -146,16 +147,16 @@ export const PageHeaderWithActions = ({
         <DynamicEditableTitle {...editableTitleProps} />
         {showTitlePanelItems && (
           <div css={buttonsStyles}>
-            {certificatiedBadgeProps?.certifiedBy && !isInIframe && (
+            {certificatiedBadgeProps?.certifiedBy && !isEmbedded && (
               <CertifiedBadge {...certificatiedBadgeProps} />
             )}
-            {showFaveStar && !isInIframe && <FaveStar {...faveStarProps} />}
-            {!isInIframe && titlePanelAdditionalItems}
+            {showFaveStar && !isEmbedded && <FaveStar {...faveStarProps} />}
+            {!isEmbedded && titlePanelAdditionalItems}
           </div>
         )}
       </div>
       <div className="right-button-panel">
-        {!isInIframe && rightPanelAdditionalItems}
+        {!isEmbedded && rightPanelAdditionalItems}
         <div css={additionalActionsContainerStyles}>
           {showMenuDropdown && (
             <AntdDropdown

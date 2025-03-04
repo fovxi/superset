@@ -131,7 +131,7 @@ export const useExploreAdditionalActionsMenu = (
   const dispatch = useDispatch();
   const [showReportSubMenu, setShowReportSubMenu] = useState(null);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  const isInIframe = useInIframe();
+  const isEmbedded = useInIframe();
   const chart = useSelector(
     state => state.charts?.[getChartKey(state.explore)],
   );
@@ -311,7 +311,7 @@ export const useExploreAdditionalActionsMenu = (
     () => (
       <Menu onClick={handleMenuClick} selectable={false} {...rest}>
         {/* 只在非iframe中显示编辑属性菜单 */}
-        {!isInIframe && (
+        {!isEmbedded && (
           <>
             {slice && (
               <Menu.Item key={MENU_KEYS.EDIT_PROPERTIES}>
@@ -379,7 +379,7 @@ export const useExploreAdditionalActionsMenu = (
           </Menu.Item>
         </Menu.SubMenu>
         {/* 只在非iframe中显示分享菜单 */}
-        {!isInIframe && (
+        {!isEmbedded && (
           <Menu.SubMenu title={t('Share')} key={MENU_KEYS.SHARE_SUBMENU}>
             <Menu.Item key={MENU_KEYS.COPY_PERMALINK}>
               {t('Copy permalink to clipboard')}
@@ -410,7 +410,7 @@ export const useExploreAdditionalActionsMenu = (
         )}
         <Menu.Divider />
         {/* 只在非iframe中显示报告菜单 */}
-        {!isInIframe && (
+        {!isEmbedded && (
           <>
             {showReportSubMenu ? (
               <>
@@ -467,7 +467,7 @@ export const useExploreAdditionalActionsMenu = (
       dashboards,
       handleMenuClick,
       isDropdownVisible,
-      isInIframe, // 添加 isInIframe 作为依赖项
+      isEmbedded, // 添加 isEmbedded 作为依赖项
       latestQueryFormData,
       showReportSubMenu,
       slice,

@@ -261,10 +261,10 @@ function ExploreViewContainer(props) {
     props.controls,
   );
 
-  // 使用自定义钩子检查是否在iframe中
-  const isInIframe = useInIframe();
+  // 使用自定义钩子检查是否在嵌入模式
+  const isEmbedded = useInIframe();
 
-  const [isCollapsed, setIsCollapsed] = useState(isInIframe);
+  const [isCollapsed, setIsCollapsed] = useState(isEmbedded);
   const [width, setWidth] = useState(
     getSidebarWidths(LocalStorageKeys.DatasourceWidth),
   );

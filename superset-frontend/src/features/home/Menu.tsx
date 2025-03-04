@@ -143,7 +143,7 @@ export function Menu({
   const [showMenu, setMenu] = useState<MenuMode>('horizontal');
   const screens = useBreakpoint();
   const uiConfig = useUiConfig();
-  const isInIframe = useInIframe();
+  const isEmbedded = useInIframe();
 
   useEffect(() => {
     function handleResize() {
@@ -247,7 +247,7 @@ export function Menu({
       className="top"
       id="main-menu"
       role="navigation"
-      style={{ display: isInIframe ? 'none' : 'block' }}
+      style={{ display: isEmbedded ? 'none' : 'block' }}
     >
       <Row>
         <Col md={16} xs={24}>
