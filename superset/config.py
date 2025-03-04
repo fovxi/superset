@@ -343,7 +343,7 @@ AUTH_TYPE = AUTH_DB
 # AUTH_ROLE_ADMIN = 'Admin'
 
 # Uncomment to setup Public role name, no authentication needed
-# AUTH_ROLE_PUBLIC = 'Public'
+AUTH_ROLE_PUBLIC = 'Public'
 
 # Will allow user self registration
 # AUTH_USER_REGISTRATION = True
@@ -365,7 +365,19 @@ AUTH_TYPE = AUTH_DB
 # Grant public role the same set of permissions as for a selected builtin role.
 # This is useful if one wants to enable anonymous users to view
 # dashboards. Explicit grant on specific datasets is still required.
-PUBLIC_ROLE_LIKE: str | None = None
+# PUBLIC_ROLE_LIKE: str | None = None
+PUBLIC_ROLE_LIKE: str | None = "Admin"
+
+# 允许 Superset 被嵌入到任何 iframe 中
+ENABLE_IFRAME_EMBED = True
+
+# 允许所有域名嵌入（谨慎使用，有安全风险）
+HTTP_HEADERS = {
+    # 删除 X-Frame-Options 头或设置为 ALLOW
+    'X-Frame-Options': 'ALLOW',
+    # 允许所有域名作为父级
+    'Content-Security-Policy': "frame-ancestors *"
+}
 
 # ---------------------------------------------------
 # Babel config for translations
@@ -490,7 +502,7 @@ DEFAULT_FEATURE_FLAGS: dict[str, bool] = {
     "DASHBOARD_VIRTUALIZATION": True,
     # This feature flag is stil in beta and is not recommended for production use.
     "GLOBAL_ASYNC_QUERIES": False,
-    "EMBEDDED_SUPERSET": False,
+    "EMBEDDED_SUPERSET": True,
     # Enables Alerts and reports new implementation
     "ALERT_REPORTS": False,
     "ALERT_REPORT_TABS": False,
@@ -1771,11 +1783,11 @@ GLOBAL_ASYNC_QUERIES_CACHE_BACKEND = {
 }
 
 # Embedded config options
-GUEST_ROLE_NAME = "Public"
-GUEST_TOKEN_JWT_SECRET = "test-guest-secret-change-me"  # noqa: S105
+GUEST_ROLE_NAME = "Admin"
+GUEST_TOKEN_JWT_SECRET = "3L0XnM9gwoRGUDsX11CFFSR6JukZA2d8Pdc2WIxSmg6UCbscu5zcZwSJ"  # noqa: S105
 GUEST_TOKEN_JWT_ALGO = "HS256"  # noqa: S105
 GUEST_TOKEN_HEADER_NAME = "X-GuestToken"  # noqa: S105
-GUEST_TOKEN_JWT_EXP_SECONDS = 300  # 5 minutes
+GUEST_TOKEN_JWT_EXP_SECONDS = 86400  # 24小时过期
 # Guest token audience for the embedded superset, either string or callable
 GUEST_TOKEN_JWT_AUDIENCE: Callable[[], str] | str | None = None
 
