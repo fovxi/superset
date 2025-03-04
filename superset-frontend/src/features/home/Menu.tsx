@@ -33,6 +33,7 @@ import {
   MenuObjectProps,
   MenuData,
 } from 'src/types/bootstrapTypes';
+import useInIframe from 'src/hooks/useInIframe';
 import RightMenu from './RightMenu';
 
 interface MenuProps {
@@ -142,12 +143,9 @@ export function Menu({
   const [showMenu, setMenu] = useState<MenuMode>('horizontal');
   const screens = useBreakpoint();
   const uiConfig = useUiConfig();
-  const [isInIframe, setIsInIframe] = useState(false);
+  const isInIframe = useInIframe();
 
   useEffect(() => {
-    // 安全地检测是否在iframe中
-    setIsInIframe(!!(window && window.self !== window.top));
-
     function handleResize() {
       if (window.innerWidth <= 767) {
         setMenu('inline');

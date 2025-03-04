@@ -20,6 +20,7 @@ import { ReactNode, ReactElement } from 'react';
 import { css, SupersetTheme, t, useTheme } from '@superset-ui/core';
 import { AntdDropdown, AntdDropdownProps } from 'src/components';
 import { TooltipPlacement } from 'src/components/Tooltip';
+import { useInIframe } from 'src/hooks/useInIframe';
 import {
   DynamicEditableTitle,
   DynamicEditableTitleProps,
@@ -137,22 +138,24 @@ export const PageHeaderWithActions = ({
   tooltipProps,
 }: PageHeaderWithActionsProps) => {
   const theme = useTheme();
+  const isInIframe = useInIframe();
+
   return (
     <div css={headerStyles} className="header-with-actions">
       <div className="title-panel">
         <DynamicEditableTitle {...editableTitleProps} />
         {showTitlePanelItems && (
           <div css={buttonsStyles}>
-            {certificatiedBadgeProps?.certifiedBy && (
+            {certificatiedBadgeProps?.certifiedBy && !isInIframe && (
               <CertifiedBadge {...certificatiedBadgeProps} />
             )}
-            {showFaveStar && <FaveStar {...faveStarProps} />}
-            {titlePanelAdditionalItems}
+            {showFaveStar && !isInIframe && <FaveStar {...faveStarProps} />}
+            {!isInIframe && titlePanelAdditionalItems}
           </div>
         )}
       </div>
       <div className="right-button-panel">
-        {rightPanelAdditionalItems}
+        {!isInIframe && rightPanelAdditionalItems}
         <div css={additionalActionsContainerStyles}>
           {showMenuDropdown && (
             <AntdDropdown

@@ -63,6 +63,7 @@ import { getFormDataFromControls } from 'src/explore/controlUtils';
 import * as exploreActions from 'src/explore/actions/exploreActions';
 import * as saveModalActions from 'src/explore/actions/saveModalActions';
 import { useTabId } from 'src/hooks/useTabId';
+import useInIframe from 'src/hooks/useInIframe';
 import withToasts from 'src/components/MessageToasts/withToasts';
 import ExploreChartPanel from '../ExploreChartPanel';
 import ConnectedControlPanelsContainer from '../ControlPanelsContainer';
@@ -260,7 +261,10 @@ function ExploreViewContainer(props) {
     props.controls,
   );
 
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  // 使用自定义钩子检查是否在iframe中
+  const isInIframe = useInIframe();
+
+  const [isCollapsed, setIsCollapsed] = useState(isInIframe);
   const [width, setWidth] = useState(
     getSidebarWidths(LocalStorageKeys.DatasourceWidth),
   );

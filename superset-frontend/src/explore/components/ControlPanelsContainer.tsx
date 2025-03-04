@@ -115,16 +115,24 @@ const actionButtonsContainerStyles = (theme: SupersetTheme) => css`
   bottom: 0;
   flex-direction: column;
   align-items: center;
-  padding: ${theme.gridUnit * 4}px;
-  z-index: 999;
+  padding: ${theme.gridUnit * 5}px ${theme.gridUnit * 4}px
+    ${theme.gridUnit * 21}px;
+  margin-top: -${theme.gridUnit * 2}px;
+  z-index: 1000;
   background: linear-gradient(
-    ${rgba(theme.colors.grayscale.light5, 0)},
-    ${theme.colors.grayscale.light5} ${theme.opacity.mediumLight}
+    180deg,
+    ${rgba(theme.colors.grayscale.light5, 0.001)} 10%,
+    ${theme.colors.grayscale.light5} 50%
   );
 
   & > button {
     min-width: 156px;
   }
+`;
+
+const bottomSpacerStyles = (theme: SupersetTheme) => css`
+  height: ${theme.gridUnit * 35}px; /* 约 140px 的空间 */
+  width: 100%;
 `;
 
 const Styles = styled.div`
@@ -805,6 +813,7 @@ export const ControlPanelsContainer = (props: ControlPanelsContainerProps) => {
           >
             {showDatasourceAlert && <DatasourceAlert />}
             {querySections.map(renderControlPanelSection)}
+            <div css={bottomSpacerStyles} />
           </Collapse>
         </Tabs.TabPane>
         {showCustomizeTab && (
@@ -815,6 +824,7 @@ export const ControlPanelsContainer = (props: ControlPanelsContainerProps) => {
               ghost
             >
               {customizeSections.map(renderControlPanelSection)}
+              <div css={bottomSpacerStyles} />
             </Collapse>
           </Tabs.TabPane>
         )}

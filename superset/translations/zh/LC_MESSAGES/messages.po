@@ -1872,7 +1872,7 @@ msgid "Bulk select"
 msgstr "批量选择"
 
 msgid "Bulk tag"
-msgstr ""
+msgstr "批量标签"
 
 msgid "Bullet Chart"
 msgstr "子弹图"
@@ -6002,6 +6002,9 @@ msgstr "线宽"
 
 msgid "Line width unit"
 msgstr "线宽单位"
+
+msgid "Nothing here yet"
+msgstr "这里还没有内容"
 
 msgid "Linear Color Scheme"
 msgstr "线性颜色方案"

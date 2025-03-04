@@ -38,6 +38,7 @@ import { getChartPermalink } from 'src/utils/urlUtils';
 import copyTextToClipboard from 'src/utils/copy';
 import HeaderReportDropDown from 'src/features/reports/ReportModal/HeaderReportDropdown';
 import { logEvent } from 'src/logger/actions';
+import useInIframe from 'src/hooks/useInIframe';
 import {
   LOG_ACTIONS_CHART_DOWNLOAD_AS_IMAGE,
   LOG_ACTIONS_CHART_DOWNLOAD_AS_JSON,
@@ -130,6 +131,7 @@ export const useExploreAdditionalActionsMenu = (
   const dispatch = useDispatch();
   const [showReportSubMenu, setShowReportSubMenu] = useState(null);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const isInIframe = useInIframe();
   const chart = useSelector(
     state => state.charts?.[getChartKey(state.explore)],
   );
@@ -308,23 +310,26 @@ export const useExploreAdditionalActionsMenu = (
   const menu = useMemo(
     () => (
       <Menu onClick={handleMenuClick} selectable={false} {...rest}>
-        <>
-          {slice && (
-            <Menu.Item key={MENU_KEYS.EDIT_PROPERTIES}>
-              {t('Edit chart properties')}
-            </Menu.Item>
-          )}
-          <Menu.SubMenu
-            title={t('On dashboards')}
-            key={MENU_KEYS.DASHBOARDS_ADDED_TO}
-          >
-            <DashboardsSubMenu
-              chartId={slice?.slice_id}
-              dashboards={dashboards}
-            />
-          </Menu.SubMenu>
-          <Menu.Divider />
-        </>
+        {/* 只在非iframe中显示编辑属性菜单 */}
+        {!isInIframe && (
+          <>
+            {slice && (
+              <Menu.Item key={MENU_KEYS.EDIT_PROPERTIES}>
+                {t('Edit chart properties')}
+              </Menu.Item>
+            )}
+            <Menu.SubMenu
+              title={t('On dashboards')}
+              key={MENU_KEYS.DASHBOARDS_ADDED_TO}
+            >
+              <DashboardsSubMenu
+                chartId={slice?.slice_id}
+                dashboards={dashboards}
+              />
+            </Menu.SubMenu>
+            <Menu.Divider />
+          </>
+        )}
         <Menu.SubMenu title={t('Download')} key={MENU_KEYS.DOWNLOAD_SUBMENU}>
           {VIZ_TYPES_PIVOTABLE.includes(latestQueryFormData.viz_type) ? (
             <>
@@ -373,58 +378,66 @@ export const useExploreAdditionalActionsMenu = (
             {t('Export to Excel')}
           </Menu.Item>
         </Menu.SubMenu>
-        <Menu.SubMenu title={t('Share')} key={MENU_KEYS.SHARE_SUBMENU}>
-          <Menu.Item key={MENU_KEYS.COPY_PERMALINK}>
-            {t('Copy permalink to clipboard')}
-          </Menu.Item>
-          <Menu.Item key={MENU_KEYS.SHARE_BY_EMAIL}>
-            {t('Share chart by email')}
-          </Menu.Item>
-          {isFeatureEnabled(FeatureFlag.EmbeddableCharts) ? (
-            <Menu.Item key={MENU_KEYS.EMBED_CODE}>
-              <ModalTrigger
-                triggerNode={
-                  <div data-test="embed-code-button">{t('Embed code')}</div>
-                }
-                modalTitle={t('Embed code')}
-                modalBody={
-                  <EmbedCodeContent
-                    formData={latestQueryFormData}
-                    addDangerToast={addDangerToast}
-                  />
-                }
-                maxWidth={`${theme.gridUnit * 100}px`}
-                destroyOnClose
-                responsive
-              />
+        {/* 只在非iframe中显示分享菜单 */}
+        {!isInIframe && (
+          <Menu.SubMenu title={t('Share')} key={MENU_KEYS.SHARE_SUBMENU}>
+            <Menu.Item key={MENU_KEYS.COPY_PERMALINK}>
+              {t('Copy permalink to clipboard')}
             </Menu.Item>
-          ) : null}
-        </Menu.SubMenu>
+            <Menu.Item key={MENU_KEYS.SHARE_BY_EMAIL}>
+              {t('Share chart by email')}
+            </Menu.Item>
+            {isFeatureEnabled(FeatureFlag.EmbeddableCharts) ? (
+              <Menu.Item key={MENU_KEYS.EMBED_CODE}>
+                <ModalTrigger
+                  triggerNode={
+                    <div data-test="embed-code-button">{t('Embed code')}</div>
+                  }
+                  modalTitle={t('Embed code')}
+                  modalBody={
+                    <EmbedCodeContent
+                      formData={latestQueryFormData}
+                      addDangerToast={addDangerToast}
+                    />
+                  }
+                  maxWidth={`${theme.gridUnit * 100}px`}
+                  destroyOnClose
+                  responsive
+                />
+              </Menu.Item>
+            ) : null}
+          </Menu.SubMenu>
+        )}
         <Menu.Divider />
-        {showReportSubMenu ? (
+        {/* 只在非iframe中显示报告菜单 */}
+        {!isInIframe && (
           <>
-            <Menu.SubMenu title={t('Manage email report')}>
-              <HeaderReportDropDown
-                chart={chart}
-                setShowReportSubMenu={setShowReportSubMenu}
-                showReportSubMenu={showReportSubMenu}
-                setIsDropdownVisible={setIsDropdownVisible}
-                isDropdownVisible={isDropdownVisible}
-                useTextMenu
-              />
-            </Menu.SubMenu>
-            <Menu.Divider />
+            {showReportSubMenu ? (
+              <>
+                <Menu.SubMenu title={t('Manage email report')}>
+                  <HeaderReportDropDown
+                    chart={chart}
+                    setShowReportSubMenu={setShowReportSubMenu}
+                    showReportSubMenu={showReportSubMenu}
+                    setIsDropdownVisible={setIsDropdownVisible}
+                    isDropdownVisible={isDropdownVisible}
+                    useTextMenu
+                  />
+                </Menu.SubMenu>
+                <Menu.Divider />
+              </>
+            ) : (
+              <Menu>
+                <HeaderReportDropDown
+                  chart={chart}
+                  setShowReportSubMenu={setShowReportSubMenu}
+                  setIsDropdownVisible={setIsDropdownVisible}
+                  isDropdownVisible={isDropdownVisible}
+                  useTextMenu
+                />
+              </Menu>
+            )}
           </>
-        ) : (
-          <Menu>
-            <HeaderReportDropDown
-              chart={chart}
-              setShowReportSubMenu={setShowReportSubMenu}
-              setIsDropdownVisible={setIsDropdownVisible}
-              isDropdownVisible={isDropdownVisible}
-              useTextMenu
-            />
-          </Menu>
         )}
         <Menu.Item key={MENU_KEYS.VIEW_QUERY}>
           <ModalTrigger
@@ -454,6 +467,7 @@ export const useExploreAdditionalActionsMenu = (
       dashboards,
       handleMenuClick,
       isDropdownVisible,
+      isInIframe, // 添加 isInIframe 作为依赖项
       latestQueryFormData,
       showReportSubMenu,
       slice,
