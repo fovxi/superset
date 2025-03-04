@@ -1066,10 +1066,10 @@ CELERY_CONFIG: type[CeleryConfig] = CeleryConfig
 DEFAULT_HTTP_HEADERS: dict[str, Any] = {}
 OVERRIDE_HTTP_HEADERS: dict[str, Any] = {}
 HTTP_HEADERS: dict[str, Any] = {
-     # 删除 X-Frame-Options 头或设置为 ALLOW
-    'X-Frame-Options': 'ALLOW',
+     # 删除 X-Frame-Options 头或设置为 ALLOWALL
+    "X-Frame-Options": "ALLOWALL",
     # 允许所有域名作为父级
-    'Content-Security-Policy': "frame-ancestors *"
+    "Content-Security-Policy": "frame-ancestors *"
 }
 
 # The db id here results in selecting this one as a default in SQL Lab
