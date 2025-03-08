@@ -264,7 +264,13 @@ function ExploreViewContainer(props) {
   // 使用自定义钩子检查是否在嵌入模式
   const isEmbedded = useInIframe();
 
-  const [isCollapsed, setIsCollapsed] = useState(isEmbedded);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  useEffect(() => {
+    if (isEmbedded) {
+      setIsCollapsed(true);
+    }
+  }, [isEmbedded]);
+
   const [width, setWidth] = useState(
     getSidebarWidths(LocalStorageKeys.DatasourceWidth),
   );
